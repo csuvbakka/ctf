@@ -4,8 +4,18 @@ def encrypt(text, shift):
     :param string text: The text to encrypt.
     :param int shift: The shift to apply.
     :return: The encrypted text."""
-    encoded = [encrypt_char(c, shift) for c in text]
-    return ''.join(encoded)
+    encrypted = [encrypt_char(c, shift) for c in text]
+    return ''.join(encrypted)
+
+
+def decrypt(text, shift):
+    """Decrypts text using Caesar cipher with the given shift.
+
+    :param string text: The text to decrypt.
+    :param int shift: The shift to apply.
+    :return: The decrypted text."""
+    decrypted = [encrypt_char(c, shift * -1) for c in text]
+    return ''.join(decrypted)
 
 
 def _do_encrypt(letter, shift):
