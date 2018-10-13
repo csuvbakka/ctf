@@ -1,3 +1,6 @@
+letters_in_alphabet = 26
+
+
 def encrypt(text, shift):
     """Encrypts text using Caesar cipher with the given shift.
 
@@ -18,13 +21,31 @@ def decrypt(text, shift):
     return ''.join(decrypted)
 
 
+def brute_force(haystack, needle):
+    """Tries to find the given string in a Caesar encrypted text.
+
+    Decrypts haystack with shifts of -26 to +26 until it finds needle in the decrypted text.
+
+    :param string haystack: The encrypted text.
+    :param string needle: The string to find.
+    :return: None if needle is not found in haystack.
+             (int, string) where int is the shift which was used to decrypt haystack,
+                           and string is the decrypted haystack.
+    """
+    for i in range(-1 * letters_in_alphabet, letters_in_alphabet):
+        decrypted = decrypt(haystack, i)
+        if needle in decrypted:
+            return i, decrypted
+
+    return None
+
+
 def _do_encrypt(letter, shift):
     """Encrypts a letter using modular arithmetic.
 
     :param int letter: Index of a letter in the alphabet.
     :param int shift: The shift to apply.
     :return: The encrypted letter's index in the alphabet. """
-    letters_in_alphabet = 26
     assert 0 <= letter <= letters_in_alphabet
     return (letter + shift) % letters_in_alphabet
 

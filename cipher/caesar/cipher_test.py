@@ -1,4 +1,4 @@
-from cipher import encrypt, decrypt
+from cipher import encrypt, decrypt, brute_force
 import unittest
 
 
@@ -55,3 +55,8 @@ class TestDecryption(unittest.TestCase):
         self.assertEqual('abc123def', decrypt('bcd123efg', 1))
         self.assertEqual('aBC1 3deF!#', decrypt('cDE1 3fgH!#', 2))
 
+
+class TestBruteForce(unittest.TestCase):
+    def test_simple_case(self):
+        text = 'guvf vf gur synt: PGS{}'
+        self.assertEqual((-13, 'this is the flag: CTF{}'), brute_force(text, 'CTF{}'))
