@@ -1,6 +1,11 @@
 letters_in_alphabet = 26
 
 
+def _is_letter(char):
+    ascii_code = ord(char)
+    return (65 <= ascii_code <= 90) or (97 <= ascii_code <= 122)
+
+
 def encrypt(text, shift):
     """Encrypts text using Caesar cipher with the given shift.
 
@@ -74,7 +79,7 @@ def encrypt_char(char, shift):
     :param int shift: The shift to apply.
     :return The given char if it is not a letter from the alphabet.
             The given character shifted by the given shift otherwise."""
-    if char.isalpha():
+    if _is_letter(char):
         return _encrypt_alpha(char, shift)
     else:
         return char
