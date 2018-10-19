@@ -2,6 +2,7 @@ letters_in_alphabet = 26
 
 
 def _is_letter(char):
+    """Returns if the given character is one of [a-zA-Z]."""
     ascii_code = ord(char)
     return (65 <= ascii_code <= 90) or (97 <= ascii_code <= 122)
 
