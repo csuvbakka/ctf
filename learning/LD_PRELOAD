@@ -1,0 +1,46 @@
+man ld.so
+
+It is possible influence the opearation of the dynamic linker with various environment variables. On Linux systems one of these variables is LD_PRELOAD which enables you to force specific shared libraries to be loaded before all others (yes, even libc.so). Using this you can write your custom malloc() and free() pair with leak checking included, or you could dump data when reverse-engineering a closed source library.
+
+!Note that the dynamic linker will ignore LD_PRELOAD on processes with different (real) user ids than yours for security reasons.
+
+BTW, you can CHECK if the setting is available by ldd command.
+
+Example: suppose you need to preload your own libselinux.so.1.
+
+> ldd /bin/ls
+    ...
+    libselinux.so.1 => /lib/x86_64-linux-gnu/libselinux.so.1 (0x00007f3927b1d000)
+    libacl.so.1 => /lib/x86_64-linux-gnu/libacl.so.1 (0x00007f3927914000)
+    libc.so.6 => /lib/x86_64-linux-gnu/libc.so.6 (0x00007f392754f000)
+    libpcre.so.3 => /lib/x86_64-linux-gnu/libpcre.so.3 (0x00007f3927311000)
+    libdl.so.2 => /lib/x86_64-linux-gnu/libdl.so.2 (0x00007f392710c000)
+    /lib64/ld-linux-x86-64.so.2 (0x00007f3927d65000)
+    libattr.so.1 => /lib/x86_64-linux-gnu/libattr.so.1 (0x00007f3926f07000)
+
+Thus, set your preload environment:
+
+> export LD_PRELOAD=/home/patric/libselinux.so.1
+Check your library again:
+
+> ldd /bin/ls
+    ...
+    libselinux.so.1 =>
+    /home/patric/libselinux.so.1 (0x00007fb9245d8000)
+    ...
+
+
+Demangle 
+Demangling is a transformation that converts a C++ blob's identifiers into human readable C++ identifiers.
+nm --demangle <file_name>
+
+Print the shared libraries required by <binary>:
+ldd <binary>
+Display the dynamic symbols rather than the normal symbols.  This is only meaningful for dynamic objects, such as certain types of shared libraries.
+nm -D <binary>
+
+gcc -fPIC -shared -o /tmp/mymemcmp.so /tmp/mymemcmp.c
+
+Related:
+https://www.linuxnix.com/suid-set-suid-linuxunix/
+
